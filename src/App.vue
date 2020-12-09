@@ -23,9 +23,9 @@
 		</div>
 		<div class="mt-12 flex gap-6 justify-between">
 			<span class="px-1 cursor-pointer text-gray-700 font-medium border-l-4 border-gray-300 pl-2 text-xs sm:text-sm">All (16)</span>
-			<span class="px-1 cursor-pointer text-gray-500 font-light border-l-4 border-blue-400 pl-2 text-xs sm:text-sm">Open (11)</span>
-			<span class="px-1 cursor-pointer text-gray-500 font-light border-l-4 border-yellow-300 pl-2 text-xs sm:text-sm">Inprogress (4)</span>
-			<span class="px-1 cursor-pointer text-gray-500 font-light border-l-4 border-green-500 pl-2 text-xs sm:text-sm">Complete (1)</span>
+			<span class="px-1 cursor-pointer text-gray-400 border-l-4 border-blue-400 pl-2 text-xs sm:text-sm">Open (11)</span>
+			<span class="px-1 cursor-pointer text-gray-400 border-l-4 border-yellow-300 pl-2 text-xs sm:text-sm">Inprogress (4)</span>
+			<span class="px-1 cursor-pointer text-gray-400 border-l-4 border-green-500 pl-2 text-xs sm:text-sm">Complete (1)</span>
 		</div>
 		<hr class="mt-4" />
 		<div class="space-y-3 mt-4">
@@ -41,7 +41,7 @@
 			>
 				<h3 class="cursor-pointer font-light mr-2 whitespace-nowrap overflow-x-hidden overflow-ellipsis">{{ task.title }}</h3>
 				<div class="flex justify-between items-center gap-4">
-					<button class="text-green-500">
+					<button class="text-green-500" @click="editTask(task)">
 						<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
 							<path
@@ -63,16 +63,28 @@
 				</div>
 			</div>
 		</div>
+		<app-dialog :isOpen="showEditDialog" @closed="showEditDialog = !showEditDialog"></app-dialog>
 	</div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
+import AppDialog from './components/app-dialog.vue';
 
 export default {
 	name: 'App',
+	components: {
+		AppDialog,
+	},
 	setup() {
 		const tasks = ref([]);
+		const showEditDialog = ref(false);
+		let currentTask = reactive({
+			id: 0,
+			title: '',
+			complete: false,
+			inProgress: false,
+		});
 
 		tasks.value.push({
 			id: 1,
@@ -95,8 +107,15 @@ export default {
 			inProgress: true,
 		});
 
+		function editTask(task) {
+			showEditDialog.value = true;
+			currentTask = task;
+		}
+
 		return {
 			tasks,
+			showEditDialog,
+			editTask,
 		};
 	},
 };
