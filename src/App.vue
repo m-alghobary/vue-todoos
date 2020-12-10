@@ -7,18 +7,13 @@
 		<div class="mt-4">
 			<label for="task_title" class="block text-sm font-medium text-gray-700">Your Task</label>
 			<div class="flex mt-1">
-				<input
-					type="text"
-					id="task_title"
-					placeholder="Describe your task..."
-					class="px-3 py-3 sm:py-4 bg-white placeholder-gray-400 focus:ring-green-500 focus:border-green-500 block w-full shadow-md sm:text-sm border-gray-300 rounded-tl rounded-bl"
-				/>
-				<button type="button" class="flex items-center px-4 whitespace-nowrap bg-green-500 text-white rounded-tr rounded-br shadow-md">
+				<base-input id="task_title" placeholder="Describe your task..." class="rounded-tl rounded-bl" />
+				<base-btn class="bg-green-500 text-white hover:bg-green-600 shadow-md rounded-tr rounded-br">
 					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
 					</svg>
 					<span>Add</span>
-				</button>
+				</base-btn>
 			</div>
 		</div>
 		<div class="mt-12 flex gap-6 justify-between">
