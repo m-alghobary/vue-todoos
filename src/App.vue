@@ -5,7 +5,7 @@
 			<p class="mt-4">You should remamber what you have to do!</p>
 		</header>
 		<div class="mt-4">
-			<new-task></new-task>
+			<new-task @submit="addTask"></new-task>
 		</div>
 		<div class="mt-12 flex gap-6 justify-between">
 			<span class="px-1 cursor-pointer text-gray-700 font-medium border-l-4 border-gray-300 pl-2 text-xs sm:text-sm">All (16)</span>
@@ -70,10 +70,15 @@ export default {
 			currentTask = task;
 		}
 
+		function addTask(task) {
+			console.log(task);
+		}
+
 		return {
 			tasks,
 			showEditDialog,
 			editTask,
+			addTask,
 		};
 	},
 };
