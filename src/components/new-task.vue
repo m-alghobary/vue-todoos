@@ -24,6 +24,8 @@ export default {
 				complete: false,
 				inProgress: false,
 			});
+
+			title.value = '';
 		}
 
 		return {

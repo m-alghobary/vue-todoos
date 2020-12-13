@@ -9,7 +9,7 @@
 	>
 		<h3 class="cursor-pointer font-light mr-2 whitespace-nowrap overflow-x-hidden overflow-ellipsis">{{ task.title }}</h3>
 		<div class="flex justify-between items-center gap-4">
-			<button class="text-green-500" @click="editTask(task)">
+			<button class="text-green-500" @click="$emit('edited', task)">
 				<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 					<path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
 					<path
@@ -19,7 +19,7 @@
 					/>
 				</svg>
 			</button>
-			<button class="text-red-400">
+			<button class="text-red-400" @click="$emit('deleted', task)">
 				<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 					<path
 						fill-rule="evenodd"
@@ -40,6 +40,7 @@ export default {
 			required: true,
 		},
 	},
+	emits: ['deleted', 'edited'],
 	setup() {
 		return {};
 	},

@@ -1,7 +1,7 @@
 <template>
 	<div class="max-w-xl mx-auto px-4 sm:px-0">
 		<header class="text-center py-8">
-			<h1 class="text-4xl font-bold inline-block relative">Suru<span class="">Koto</span></h1>
+			<h1 class="text-4xl font-bold inline-block relative">Vue<span class="">Todooos</span></h1>
 			<p class="mt-4">You should remamber what you have to do!</p>
 		</header>
 		<div class="mt-4">
@@ -15,7 +15,7 @@
 		</div>
 		<hr class="mt-4" />
 		<div class="mt-4">
-			<task-list :tasks="tasks"></task-list>
+			<task-list :tasks="tasks" @remove="removeTask"></task-list>
 		</div>
 		<!-- <app-dialog :isOpen="showEditDialog" @closed="showEditDialog = !showEditDialog"></app-dialog> -->
 	</div>
@@ -42,10 +42,15 @@ export default {
 			tasks.value.push(task);
 		}
 
+		function removeTask(task) {
+			tasks.value = tasks.value.filter((t) => t.title !== task.title);
+		}
+
 		return {
 			tasks,
 			showEditDialog,
 			addTask,
+			removeTask,
 		};
 	},
 };
