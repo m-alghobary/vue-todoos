@@ -2,9 +2,9 @@
 	<div
 		class="flex px-4 py-3 rounded shadow bg-white justify-between items-center border-l-4"
 		:class="{
-			'border-green-500': task.complete,
-			'border-yellow-300': task.inProgress,
-			'border-blue-400': !task.inProgress && !task.complete,
+			'border-green-500': task.state === 'Completed',
+			'border-yellow-300': task.state === 'In Progress',
+			'border-blue-400': task.state === 'Open',
 		}"
 	>
 		<h3 class="cursor-pointer font-light mr-2 whitespace-nowrap overflow-x-hidden overflow-ellipsis">{{ task.title }}</h3>

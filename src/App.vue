@@ -15,9 +15,9 @@
 		</div>
 		<hr class="mt-4" />
 		<div class="mt-4">
-			<task-list :tasks="tasks" @remove="removeTask"></task-list>
+			<task-list :tasks="tasks" @remove="removeTask" @update="updateTask"></task-list>
 		</div>
-		<!-- <app-dialog :isOpen="showEditDialog" @closed="showEditDialog = !showEditDialog"></app-dialog> -->
+		<app-dialog :task="currentTask" :isOpen="showEditDialog" @closed="closeEditDialog"></app-dialog>
 	</div>
 </template>
 
@@ -37,6 +37,10 @@ export default {
 	setup() {
 		const tasks = ref([]);
 		const showEditDialog = ref(false);
+		const currentTask = ref({
+			title: '',
+			state: 'Open',
+		});
 
 		function addTask(task) {
 			tasks.value.push(task);
@@ -46,11 +50,28 @@ export default {
 			tasks.value = tasks.value.filter((t) => t.title !== task.title);
 		}
 
+		function updateTask(task) {
+			currentTask.value = task;
+			showEditDialog.value = true;
+		}
+
+		function saveTask(task) {
+			const index = tasks.value.findIndex((t) => t.title === task.title);
+			tasks.value[index] = task;
+		}
+
+		function closeEditDialog() {
+			showEditDialog.value = false;
+		}
+
 		return {
 			tasks,
 			showEditDialog,
 			addTask,
 			removeTask,
+			updateTask,
+			closeEditDialog,
+			currentTask,
 		};
 	},
 };

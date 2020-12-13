@@ -3,7 +3,7 @@
 		:value="modelValue"
 		@input="$emit('update:modelValue', $event.target.value)"
 		:type="type"
-		class="px-3 py-3 sm:py-4 bg-white placeholder-gray-400 focus:ring-green-500 focus:border-green-500 block w-full shadow-md sm:text-sm border-gray-300"
+		class="px-3 py-3 bg-white placeholder-gray-400 focus:ring-green-500 focus:border-green-500 block w-full shadow-md sm:text-sm border-gray-300"
 	/>
 </template>
 
