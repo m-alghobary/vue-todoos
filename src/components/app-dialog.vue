@@ -39,9 +39,9 @@
 					</div>
 				</div>
 				<div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-					<base-btn @click="$emit('closed')" class="rounded bg-green-500 text-white hover:bg-green-600 sm:ml-3 sm:w-auto">
-						Deactivate
-					</base-btn>
+					<base-btn @click="$emit('saved', task)" class="rounded bg-green-500 text-white hover:bg-green-600 sm:ml-3 sm:w-auto"
+						>Save</base-btn
+					>
 					<base-btn
 						@click="$emit('closed')"
 						class="rounded border-gray-300 bg-white text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto"
@@ -73,6 +73,7 @@ export default {
 			}),
 		},
 	},
+	emits: ['closed', 'saved'],
 	setup(props) {
 		const isOpen = computed(() => props.isOpen);
 		return {

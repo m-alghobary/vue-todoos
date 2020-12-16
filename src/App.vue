@@ -17,7 +17,7 @@
 		<div class="mt-4">
 			<task-list :tasks="tasks" @remove="removeTask" @update="updateTask"></task-list>
 		</div>
-		<app-dialog :task="currentTask" :isOpen="showEditDialog" @closed="closeEditDialog"></app-dialog>
+		<app-dialog :task="currentTask" :isOpen="showEditDialog" @saved="saveTask" @closed="closeEditDialog"></app-dialog>
 	</div>
 </template>
 
@@ -56,8 +56,9 @@ export default {
 		}
 
 		function saveTask(task) {
-			const index = tasks.value.findIndex((t) => t.title === task.title);
+			const index = tasks.value.findIndex((t) => t.title === currentTask.value.title);
 			tasks.value[index] = task;
+			closeEditDialog();
 		}
 
 		function closeEditDialog() {
@@ -72,6 +73,7 @@ export default {
 			updateTask,
 			closeEditDialog,
 			currentTask,
+			saveTask,
 		};
 	},
 };
