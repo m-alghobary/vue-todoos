@@ -9,7 +9,7 @@
 				@edited="(task) => $emit('update', task)"
 			></task-item>
 		</template>
-		<div v-else class="text-gray-600 text-center font-light">No tasks yet.</div>
+		<div v-else class="bg-gray-50 py-2 text-gray-500 text-sm text-center font-light">No tasks yet.</div>
 	</div>
 </template>
 

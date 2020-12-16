@@ -1,5 +1,5 @@
 <template>
-	<div class="max-w-xl mx-auto px-4 sm:px-0">
+	<div class="max-w-xl mx-auto px-4 sm:px-0 pb-10">
 		<header class="text-center py-8">
 			<h1 class="text-4xl font-bold inline-block relative">Vue<span class="">Todooos</span></h1>
 			<p class="mt-4">You should remamber what you have to do!</p>
@@ -8,24 +8,28 @@
 			<new-task @submit="addTask"></new-task>
 		</div>
 		<div class="mt-12 flex gap-6 justify-between">
-			<span class="px-1 cursor-pointer text-gray-700 font-medium border-l-4 border-gray-300 pl-2 text-xs sm:text-sm">All (16)</span>
-			<span class="px-1 cursor-pointer text-gray-400 font-light border-l-4 border-blue-400 pl-2 text-xs sm:text-sm">Open (11)</span>
-			<span class="px-1 cursor-pointer text-gray-400 font-light border-l-4 border-yellow-300 pl-2 text-xs sm:text-sm">Inprogress (4)</span>
-			<span class="px-1 cursor-pointer text-gray-400 font-light border-l-4 border-green-500 pl-2 text-xs sm:text-sm">Complete (1)</span>
+			<span class="tab border-gray-300" :class="{ 'tab--active': filter === 'All' }" @click="filter = 'All'">All ({{ allTasks }})</span>
+			<span class="tab border-blue-400" :class="{ 'tab--active': filter === 'Open' }" @click="filter = 'Open'">Open ({{ openTasks }})</span>
+			<span class="tab border-yellow-300" :class="{ 'tab--active': filter === 'In Progress' }" @click="filter = 'In Progress'"
+				>In Progress ({{ inProgressTasks }})</span
+			>
+			<span class="tab border-green-500" :class="{ 'tab--active': filter === 'Completed' }" @click="filter = 'Completed'"
+				>Completed ({{ completedTasks }})</span
+			>
 		</div>
-		<hr class="mt-4" />
 		<div class="mt-4">
-			<task-list :tasks="tasks" @remove="removeTask" @update="updateTask"></task-list>
+			<task-list :tasks="filteredTasks" @remove="removeTask" @update="updateTask"></task-list>
 		</div>
-		<app-dialog :task="currentTask" :isOpen="showEditDialog" @saved="saveTask" @closed="closeEditDialog"></app-dialog>
+		<app-dialog :key="currentTask" :task="currentTask" :isOpen="showEditDialog" @saved="saveTask" @closed="closeEditDialog"></app-dialog>
 	</div>
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import NewTask from './components/new-task.vue';
 import TaskList from './components/task-list.vue';
 import AppDialog from './components/app-dialog.vue';
+import AppTabs from './components/app-tabs.vue';
 
 export default {
 	name: 'App',
@@ -33,14 +37,26 @@ export default {
 		AppDialog,
 		NewTask,
 		TaskList,
+		AppTabs,
 	},
 	setup() {
 		const tasks = ref([]);
-		const showEditDialog = ref(false);
+		const filter = ref('All');
+		const filteredTasks = computed(() => {
+			return tasks.value.filter((task) => {
+				return filter.value === 'All' ? true : task.state === filter.value;
+			});
+		});
 		const currentTask = ref({
 			title: '',
 			state: 'Open',
 		});
+		const showEditDialog = ref(false);
+
+		const allTasks = computed(() => tasks.value.length);
+		const openTasks = computed(() => tasks.value.filter((task) => task.state === 'Open').length);
+		const inProgressTasks = computed(() => tasks.value.filter((task) => task.state === 'In Progress').length);
+		const completedTasks = computed(() => tasks.value.filter((task) => task.state === 'Completed').length);
 
 		function addTask(task) {
 			tasks.value.push(task);
@@ -74,6 +90,12 @@ export default {
 			closeEditDialog,
 			currentTask,
 			saveTask,
+			allTasks,
+			openTasks,
+			inProgressTasks,
+			completedTasks,
+			filteredTasks,
+			filter,
 		};
 	},
 };
