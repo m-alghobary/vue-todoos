@@ -1,7 +1,7 @@
 <template>
 	<div class="max-w-xl mx-auto px-4 sm:px-0 pb-10">
 		<header class="text-center py-8">
-			<h1 class="text-4xl font-bold inline-block relative">Vue<span class="">Todooos</span></h1>
+			<h1 class="text-4xl font-bold inline-block relative">Vue<span class="">Todoos</span></h1>
 			<p class="mt-4">You should remamber what you have to do!</p>
 		</header>
 		<div class="mt-4">
