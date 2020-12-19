@@ -20,16 +20,16 @@
 		<div class="mt-4">
 			<task-list :tasks="filteredTasks" @remove="removeTask" @update="updateTask"></task-list>
 		</div>
-		<app-dialog :key="currentTask" :task="currentTask" :isOpen="showEditDialog" @saved="saveTask" @closed="closeEditDialog"></app-dialog>
+		<app-dialog :key="currentTask" :task="currentTask" :isOpen="showEditDialog" @saved="saveUpdate" @closed="closeEditDialog"></app-dialog>
 	</div>
 </template>
 
 <script>
 import { computed, reactive, ref } from 'vue';
+import { tasks, addTask, removeTask, saveTask } from './utility/useTasks.js';
 import NewTask from './components/new-task.vue';
 import TaskList from './components/task-list.vue';
 import AppDialog from './components/app-dialog.vue';
-import AppTabs from './components/app-tabs.vue';
 
 export default {
 	name: 'App',
@@ -37,10 +37,8 @@ export default {
 		AppDialog,
 		NewTask,
 		TaskList,
-		AppTabs,
 	},
 	setup() {
-		const tasks = ref([]);
 		const filter = ref('All');
 		const filteredTasks = computed(() => {
 			return tasks.value.filter((task) => {
@@ -58,27 +56,17 @@ export default {
 		const inProgressTasks = computed(() => tasks.value.filter((task) => task.state === 'In Progress').length);
 		const completedTasks = computed(() => tasks.value.filter((task) => task.state === 'Completed').length);
 
-		function addTask(task) {
-			tasks.value.push(task);
-		}
-
-		function removeTask(task) {
-			tasks.value = tasks.value.filter((t) => t.title !== task.title);
-		}
-
 		function updateTask(task) {
 			currentTask.value = task;
 			showEditDialog.value = true;
 		}
 
-		function saveTask(task) {
-			const index = tasks.value.findIndex((t) => t.title === currentTask.value.title);
-			tasks.value[index] = task;
-			closeEditDialog();
-		}
-
 		function closeEditDialog() {
 			showEditDialog.value = false;
+		}
+
+		function saveUpdate(task) {
+			saveTask(currentTask, task).then(() => closeEditDialog());
 		}
 
 		return {
@@ -89,7 +77,7 @@ export default {
 			updateTask,
 			closeEditDialog,
 			currentTask,
-			saveTask,
+			saveUpdate,
 			allTasks,
 			openTasks,
 			inProgressTasks,

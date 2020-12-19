@@ -1,7 +1,7 @@
 <template>
 	<div class="space-y-3">
 		<template v-if="tasks.length">
-			<transition-group name="tasks">
+			<transition-group name="tasks" appear>
 				<task-item
 					v-for="task in tasks"
 					:key="task"
@@ -38,7 +38,11 @@ export default {
 <style scoped>
 .tasks-enter-active,
 .tasks-leave-active {
-	transition: all 0.4s ease;
+	transition: all 0.3s ease;
+}
+
+.tasks-move {
+	transition: transform 0.5s ease;
 }
 
 .tasks-enter-from,
